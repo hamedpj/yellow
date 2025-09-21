@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flores Amarillas - 21 de Septiembre</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(to bottom, #fffbde, #fff5c0);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+        }
+        
+        .container {
+            text-align: center;
+            z-index: 20;
+            padding: 2.5rem;
+            background-color: rgba(255, 253, 245, 0.92);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            max-width: 800px;
+            width: 100%;
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 235, 120, 0.5);
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        h1 {
+            color: #e67e00;
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(to right, #FFD700, #FFA500);
+            border-radius: 4px;
+        }
+        
+        .message {
+            font-size: 1.4rem;
+            line-height: 1.7;
+            color: #5c4b01;
+            margin: 2rem 0;
+            text-align: center;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .date {
+            font-style: italic;
+            color: #8B7500;
+            margin-top: 2rem;
+            font-weight: bold;
+            font-size: 1.3rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hearts {
+            color: #FF6B6B;
+            margin: 0 5px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Flores */
+        .flower {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        /* Flor con centro circular y pétalos */
+        .flower-type-1 {
+            width: 70px;
+            height: 70px;
+        }
+        
+        .center {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: #8B7500;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            box-shadow: 0 0 8px rgba(139, 117, 0, 0.5);
+        }
+        
+        .petal {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            background: #FFEB3B;
+            border-radius: 50% 50% 50% 50%;
+            top: 50%;
+            left: 50%;
+            margin-top: -14px;
+            margin-left: -14px;
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.7);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+        }
+        
+        .petal.p1 { transform: translate(0, -24px); }
+        .petal.p2 { transform: translate(17px, -17px); }
+        .petal.p3 { transform: translate(24px, 0); }
+        .petal.p4 { transform: translate(17px, 17px); }
+        .petal.p5 { transform: translate(0, 24px); }
+        .petal.p6 { transform: translate(-17px, 17px); }
+        .petal.p7 { transform: translate(-24px, 0); }
+        .petal.p8 { transform: translate(-17px, -17px); }
+        
+        /* Margarita con pétalos alargados */
+        .flower-type-2 {
+            width: 80px;
+            height: 80px;
+        }
+        
+        .flower-type-2 .center {
+            width: 18px;
+            height: 18px;
+            background: #FFD700;
+        }
+        
+        .flower-type-2 .petal {
+            width: 10px;
+            height: 35px;
+            background: #FFF9C4;
+            border-radius: 50%;
+        }
+        
+        /* Flor tipo 3 - Pequeña */
+        .flower-type-3 {
+            width: 45px;
+            height: 45px;
+        }
+        
+        .flower-type-3 .center {
+            width: 12px;
+            height: 12px;
+            background: #FFA500;
+        }
+        
+        .flower-type-3 .petal {
+            width: 15px;
+            height: 15px;
+            background: #FFD700;
+        }
+        
+        /* Tallo */
+        .stem {
+            position: absolute;
+            width: 5px;
+            height: 90px;
+            background: linear-gradient(to bottom, #2E8B57, #3CB371);
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            border-radius: 2px;
+        }
+        
+        /* Hojas */
+        .leaf {
+            position: absolute;
+            width: 20px;
+            height: 12px;
+            background: #3CB371;
+            border-radius: 50% 0 50% 50%;
+            z-index: -1;
+            top: 100px;
+            left: calc(50% - 5px);
+            transform: translateX(-50%) rotate(-30deg);
+        }
+        
+        .leaf.right {
+            left: calc(50% + 5px);
+            transform: translateX(-50%) rotate(30deg);
+            border-radius: 0 50% 50% 50%;
+        }
+        
+        /* Animación de flotación para las flores */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(5deg); }
+        }
+        
+        .flower {
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        /* Diferentes tiempos de animación para variedad */
+        .flower:nth-child(2n) {
+            animation-duration: 10s;
+            animation-delay: 1s;
+        }
+        
+        .flower:nth-child(3n) {
+            animation-duration: 12s;
+            animation-delay: 2s;
+        }
+        
+        .flower:nth-child(4n) {
+            animation-duration: 9s;
+            animation-delay: 3s;
+        }
+        
+        /* Efecto de caída de pétalos */
+        .petal-fall {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #FFF9C4;
+            border-radius: 50% 50% 50% 50%;
+            opacity: 0.9;
+            z-index: 0;
+            pointer-events: none;
+            box-shadow: 0 0 8px rgba(255, 249, 196, 0.7);
+            border: 1px solid rgba(255, 230, 100, 0.4);
+        }
+        
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.9; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsive para tablets */
+        @media (max-width: 1024px) {
+            h1 { font-size: 2.5rem; }
+            .message { font-size: 1.3rem; }
+            .container { padding: 2rem; }
+        }
+        
+        /* Responsive para móviles */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .message { font-size: 1.2rem; }
+            .container { 
+                padding: 1.8rem;
+                margin: 1.5rem; 
+            }
+            
+            .flower-type-1,
+            .flower-type-2,
+            .flower-type-3 {
+                transform: scale(0.85);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .message { font-size: 1.1rem; }
+            .date { font-size: 1.1rem; }
+            .container { 
+                padding: 1.5rem;
+                border-radius: 20px;
+            }
+            
+            .flower-type-1,
+            .flower-type-2,
+            .flower-type-3 {
+                transform: scale(0.75);
+            }
+            
+            h1::after {
+                width: 120px;
+                bottom: -12px;
+            }
+        }
+        
+        /* Marco floral decorativo */
+        .floral-frame {
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            top: -5%;
+            left: -5%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.4;
+        }
+        
+        .frame-flower {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .frame-flower .center {
+            width: 12px;
+            height: 12px;
+            background: #FFA500;
+        }
+        
+        .frame-flower .petal {
+            width: 16px;
+            height: 16px;
+            background: #FFD700;
+        }
+        
+        /* Flores en las esquinas */
+        .corner-flower {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            z-index: 15;
+        }
+        
+        .top-left { top: 20px; left: 20px; }
+        .top-right { top: 20px; right: 20px; transform: rotate(90deg); }
+        .bottom-left { bottom: 20px; left: 20px; transform: rotate(-90deg); }
+        .bottom-right { bottom: 20px; right: 20px; transform: rotate(180deg); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PARA LA MEJOR ENFERMERA</h1>
+        <div class="message">
+            FELIZ 21 DE SEPTIEMBRE<br>DÍA DE LAS FLORES AMARILLAS
+        </div>
+        <div class="date">Con cariño <span class="hearts">♥</span></div>
+    </div>
+
+    <!-- Flores en las esquinas -->
+    <div class="corner-flower top-left">
+        <div class="flower-type-1">
+            <div class="center"></div>
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+            <div class="petal p7"></div>
+            <div class="petal p8"></div>
+        </div>
+    </div>
+    
+    <div class="corner-flower top-right">
+        <div class="flower-type-1">
+            <div class="center"></div>
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+            <div class="petal p7"></div>
+            <div class="petal p8"></div>
+        </div>
+    </div>
+    
+    <div class="corner-flower bottom-left">
+        <div class="flower-type-1">
+            <div class="center"></div>
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+            <div class="petal p7"></div>
+            <div class="petal p8"></div>
+        </div>
+    </div>
+    
+    <div class="corner-flower bottom-right">
+        <div class="flower-type-1">
+            <div class="center"></div>
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+            <div class="petal p7"></div>
+            <div class="petal p8"></div>
+        </div>
+    </div>
+
+    <!-- Las flores se generarán con JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const body = document.querySelector('body');
+            const numFlowers = 25; // Más flores
+            const numPetals = 60;  // Más pétalos
+            
+            // Crear flores
+            for (let i = 0; i < numFlowers; i++) {
+                createFlower(body);
+            }
+            
+            // Crear pétalos cayendo
+            for (let i = 0; i < numPetals; i++) {
+                createFallingPetal(body);
+            }
+            
+            // Crear marco floral
+            createFloralFrame(body);
+        });
+        
+        function createFlower(container) {
+            const flower = document.createElement('div');
+            flower.classList.add('flower');
+            
+            // Posición aleatoria
+            const xPos = Math.random() * 100;
+            const yPos = 10 + Math.random() * 80;
+            
+            flower.style.left = `${xPos}vw`;
+            flower.style.top = `${yPos}vh`;
+            
+            // Tipo aleatorio de flor
+            const flowerTypeNum = Math.floor(Math.random() * 3) + 1;
+            const flowerType = `flower-type-${flowerTypeNum}`;
+            flower.classList.add(flowerType);
+            
+            // Centro de la flor
+            const center = document.createElement('div');
+            center.classList.add('center');
+            
+            // Pétalos
+            const numPetals = 8;
+            for (let i = 0; i < numPetals; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal', `p${i+1}`);
+                flower.appendChild(petal);
+            }
+            
+            // Tallo (solo para flores más grandes)
+            if (flowerTypeNum !== 3) {
+                const stem = document.createElement('div');
+                stem.classList.add('stem');
+                flower.appendChild(stem);
+                
+                // Hojas
+                const leaf1 = document.createElement('div');
+                leaf1.classList.add('leaf');
+                flower.appendChild(leaf1);
+                
+                const leaf2 = document.createElement('div');
+                leaf2.classList.add('leaf', 'right');
+                flower.appendChild(leaf2);
+            }
+            
+            flower.appendChild(center);
+            
+            // Tamaño aleatorio
+            const size = 0.7 + Math.random() * 0.7;
+            flower.style.transform = `scale(${size})`;
+            
+            // Retraso aleatorio para animación
+            flower.style.animationDelay = `${Math.random() * 5}s`;
+            
+            container.appendChild(flower);
+        }
+        
+        function createFallingPetal(container) {
+            const petal = document.createElement('div');
+            petal.classList.add('petal-fall');
+            
+            // Posición horizontal aleatoria
+            const left = Math.random() * 100;
+            petal.style.left = `${left}vw`;
+            
+            // Posición vertical inicial aleatoria
+            const top = -Math.random() * 20;
+            petal.style.top = `${top}vh`;
+            
+            // Retraso aleatorio
+            const delay = Math.random() * 15;
+            petal.style.animationDelay = `${delay}s`;
+            
+            // Duración aleatoria
+            const duration = 12 + Math.random() * 25;
+            petal.style.animation = `fall ${duration}s linear infinite`;
+            
+            // Tamaño aleatorio
+            const size = 0.5 + Math.random();
+            petal.style.transform = `scale(${size})`;
+            
+            container.appendChild(petal);
+        }
+        
+        function createFloralFrame(container) {
+            const frame = document.createElement('div');
+            frame.classList.add('floral-frame');
+            
+            // Crear flores para el marco
+            for (let i = 0; i < 40; i++) {
+                const frameFlower = document.createElement('div');
+                frameFlower.classList.add('frame-flower');
+                
+                // Posicionar en el perímetro
+                if (i < 10) {
+                    // Superior
+                    frameFlower.style.top = '0';
+                    frameFlower.style.left = `${i * 10}%`;
+                } else if (i < 20) {
+                    // Derecha
+                    frameFlower.style.right = '0';
+                    frameFlower.style.top = `${(i-10) * 10}%`;
+                } else if (i < 30) {
+                    // Inferior
+                    frameFlower.style.bottom = '0';
+                    frameFlower.style.right = `${(i-20) * 10}%`;
+                } else {
+                    // Izquierda
+                    frameFlower.style.left = '0';
+                    frameFlower.style.bottom = `${(i-30) * 10}%`;
+                }
+                
+                // Centro
+                const center = document.createElement('div');
+                center.classList.add('center');
+                
+                // Pétalos
+                for (let j = 0; j < 8; j++) {
+                    const petal = document.createElement('div');
+                    petal.classList.add('petal', `p${j+1}`);
+                    frameFlower.appendChild(petal);
+                }
+                
+                frameFlower.appendChild(center);
+                frame.appendChild(frameFlower);
+            }
+            
+            container.appendChild(frame);
+        }
+    </script>
+</body>
+</html>
